@@ -215,4 +215,4 @@ replace github.com/tendermint/tendermint => github.com/specy-network/tendermint 
 // use bianjieai fork of ethermint
 replace github.com/evmos/ethermint => github.com/bianjieai/ethermint v0.20.1-0.20230605013951-db87b54350e9
 
-replace github.com/bianjieai/nft-transfer => github.com/specy-network/nft-transfer v1.1.1-specy-beta-tag
+replace github.com/bianjieai/nft-transfer => github.com/specy-network/nft-transfer v1.1.1-specy-alpha-tag
