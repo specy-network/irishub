@@ -919,8 +919,8 @@ github.com/spaolacci/murmur3 v1.1.0 h1:7c1g84S4BPRrfL5Xrdp6fOJ206sU9y293DDHaoy0b
 github.com/spaolacci/murmur3 v1.1.0/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
 github.com/specy-network/nft-transfer v1.1.1-specy-alpha-tag h1:i7rKDAicijJo7t44QkfdrpRvksMMCZ2OUMpHGqZi0p4=
 github.com/specy-network/nft-transfer v1.1.1-specy-alpha-tag/go.mod h1:bZ9rO7aUT04ZBEO5I4/fi7rbu5Z1LDxg2A2+m9+eToI=
-github.com/specy-network/specy v0.0.2-hackathon h1:8YPe9ZW1prYB4lIgdfntYm6jPtxFvI8q+l1kGODhYO4=
-github.com/specy-network/specy v0.0.2-hackathon/go.mod h1:iy/8enDGplYRTTLJnijDD2FPJassho8fvpZHpHKTMx8=
+github.com/specy-network/specy v0.0.3-hackathon h1:bc4S49SmXXoqiaoyPQ7bpxI1Va99rLB8tIVajgwrSR8=
+github.com/specy-network/specy v0.0.3-hackathon/go.mod h1:iy/8enDGplYRTTLJnijDD2FPJassho8fvpZHpHKTMx8=
 github.com/specy-network/tendermint v0.34.22-specy h1:/EYixDfBAOfGs3R3wRAz3imiy8WmFpc1scef2vagd4s=
 github.com/specy-network/tendermint v0.34.22-specy/go.mod h1:tcUczmSIHo6UpVK2wjVDRfnYk6QW/euqAw0B+qmpqHg=
 github.com/spf13/afero v1.1.2/go.mod h1:j4pytiNVoe2o6bmDsKpLACNPDBIoEAkihy7loJ1B0CQ=
