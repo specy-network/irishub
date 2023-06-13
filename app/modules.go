@@ -89,6 +89,12 @@ import (
 	guardiantypes "github.com/irisnet/irishub/modules/guardian/types"
 	"github.com/irisnet/irishub/modules/mint"
 	minttypes "github.com/irisnet/irishub/modules/mint/types"
+
+	specymodule "github.com/specy-network/specy/x/specy"
+	specymoduletypes "github.com/specy-network/specy/x/specy/types"
+
+	rewardsmodule "github.com/specy-network/specy/x/rewards"
+	rewardsmoduletypes "github.com/specy-network/specy/x/rewards/types"
 )
 
 var (
@@ -147,6 +153,10 @@ var (
 
 		converter.AppModuleBasic{},
 		bridgenfttransfer.AppModule{},
+
+		//specy
+		specymodule.AppModuleBasic{},
+		rewardsmodule.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -173,6 +183,9 @@ var (
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 
 		convertertypes.ModuleName: nil,
+
+		specymoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		rewardsmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 	}
 )
 
@@ -226,6 +239,9 @@ func appModules(
 		// bridge app modules
 		converter.NewAppModule(app.Erc721ConvertKeeper, app.AccountKeeper),
 		app.ibcnfttransferModule,
+
+		rewardsmodule.NewAppModule(appCodec, app.RewardsKeeper, app.AccountKeeper, app.BankKeeper),
+		specymodule.NewAppModule(appCodec, app.SpecyKeeper, app.AccountKeeper, app.BankKeeper),
 	}
 }
 
@@ -268,6 +284,10 @@ func simulationModules(
 		// Ethermint app modules
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
+
+		//specy
+		rewardsmodule.NewAppModule(appCodec, app.RewardsKeeper, app.AccountKeeper, app.BankKeeper),
+		specymodule.NewAppModule(appCodec, app.SpecyKeeper, app.AccountKeeper, app.BankKeeper),
 	}
 }
 
@@ -325,6 +345,10 @@ func orderBeginBlockers() []string {
 		// erc721 bridge modules
 		convertertypes.ModuleName,
 		ibcnfttransfertypes.ModuleName,
+
+		//specy
+		specymoduletypes.ModuleName,
+		rewardsmoduletypes.ModuleName,
 	}
 }
 
@@ -378,6 +402,10 @@ func orderEndBlockers() []string {
 		// erc721 bridge modules
 		convertertypes.ModuleName,
 		ibcnfttransfertypes.ModuleName,
+
+		//specy
+		specymoduletypes.ModuleName,
+		rewardsmoduletypes.ModuleName,
 	}
 }
 
@@ -435,5 +463,9 @@ func orderInitBlockers() []string {
 
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
+
+		//specy
+		specymoduletypes.ModuleName,
+		rewardsmoduletypes.ModuleName,
 	}
 }

@@ -132,6 +132,12 @@ import (
 	mintkeeper "github.com/irisnet/irishub/modules/mint/keeper"
 	minttypes "github.com/irisnet/irishub/modules/mint/types"
 	iristypes "github.com/irisnet/irishub/types"
+
+	specymodulekeeper "github.com/specy-network/specy/x/specy/keeper"
+	specymoduletypes "github.com/specy-network/specy/x/specy/types"
+
+	rewardsmodulekeeper "github.com/specy-network/specy/x/rewards/keeper"
+	rewardsmoduletypes "github.com/specy-network/specy/x/rewards/types"
 )
 
 var (
@@ -171,6 +177,12 @@ type IrisApp struct {
 	ParamsKeeper     paramskeeper.Keeper
 	EvidenceKeeper   evidencekeeper.Keeper
 	AuthzKeeper      authzkeeper.Keeper
+
+	//specy
+
+	SpecyKeeper specymodulekeeper.Keeper
+
+	RewardsKeeper rewardsmodulekeeper.Keeper
 
 	//ibc
 	IBCKeeper            *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
@@ -283,6 +295,8 @@ func NewIrisApp(
 		ibcnfttransfertypes.StoreKey,
 		// erc721-bridge
 		convertertypes.StoreKey,
+		rewardsmoduletypes.StoreKey,
+		specymoduletypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(
 		paramstypes.TStoreKey,
@@ -499,6 +513,27 @@ func NewIrisApp(
 	)
 	// If evidence needs to be handled for the app, set routes in router here and seal
 	app.EvidenceKeeper = *evidenceKeeper
+
+	//specy
+	app.RewardsKeeper = *rewardsmodulekeeper.NewKeeper(
+		appCodec,
+		keys[rewardsmoduletypes.StoreKey],
+		keys[rewardsmoduletypes.MemStoreKey],
+		app.GetSubspace(rewardsmoduletypes.ModuleName),
+
+		app.BankKeeper,
+	)
+
+	router := specymodulekeeper.NewRouter()
+	router.AddRoute(rewardsmoduletypes.ModuleName, app.RewardsKeeper)
+	app.SpecyKeeper = *specymodulekeeper.NewKeeper(
+		appCodec,
+		keys[specymoduletypes.StoreKey],
+		keys[specymoduletypes.MemStoreKey],
+		app.GetSubspace(specymoduletypes.ModuleName),
+		router,
+		app.BankKeeper,
+	)
 
 	app.GuardianKeeper = guardiankeeper.NewKeeper(
 		appCodec,
@@ -961,6 +996,10 @@ func initParamsKeeper(
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
+
+	//specy
+	paramsKeeper.Subspace(specymoduletypes.ModuleName)
+	paramsKeeper.Subspace(rewardsmoduletypes.ModuleName)
 
 	return paramsKeeper
 }
